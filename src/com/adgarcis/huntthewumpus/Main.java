@@ -94,16 +94,27 @@ public class Main {
 		console("7 dispara flecha hacia derecha (Te quedan "+player.getArrows()+")");
 		console("8 dispara flecha hacia izquierda (Te quedan "+player.getArrows()+")");
 		console("9 Salir");
+		//Dibujamos mapa para saber donde tengo las cosas como ayuda
 		console("-------------------");
-		for(int i = 0; i < board.getSizeX(); i++){
+		
+		for(int j = board.getSizeY()-1; j >= 0 ; j--){
 			String fila = "";
-			for(int j = 0; j < board.getSizeY(); j++){
-				if(i == enemy.getPosX() && j == enemy.getPosY()){
+			for(int i = 0; i < board.getSizeX() ; i++){
+				boolean detectW = false;
+				for(int w = 0; w<waterWellList.size(); w++){
+					if(i == waterWellList.get(w).getPosX() && j == waterWellList.get(w).getPosY()){
+						fila = fila + " W ";
+						detectW = true;
+					}
+				}
+				if(i == enemy.getPosX() && j == enemy.getPosY() && !enemy.isDeath()){
 					fila = fila + " E ";
-				}else if(i == gold.getPosX() && j == gold.getPosY()){
+				}else if(i == gold.getPosX() && j == gold.getPosY()  && !player.isGold()){
 					fila = fila + " G ";
 				}else if(i == player.getPosX() && j == player.getPosY()){
 					fila = fila + " P ";
+				}else if(detectW){
+					
 				}else{
 					fila = fila + " x ";
 				}
@@ -114,98 +125,124 @@ public class Main {
 		console("-------------------");
 		Scanner sc = new Scanner (System.in); 
 		int opc = capturaOpcion(sc, "Elige una opción: ");
-		switch (opc) {
-			case 1: 
-				player.setPosition(player.getPosX(), player.getPosY() + 1);
-				break;
-			case 2: 
-				player.setPosition(player.getPosX(), player.getPosY() - 1);
-				break;
-			case 3: 
-				player.setPosition(player.getPosX() + 1, player.getPosY());
-				break;
-			case 4: 
-				player.setPosition(player.getPosX() - 1, player.getPosY());
-				break;
-			case 5: 
-				player.setArrows(player.getArrows()-1);
-				if(!enemy.isDeath()){
-					for(int i=player.getPosY(); i<board.getSizeY(); i++){
-						if(enemy.getPosX() == player.getPosX() && enemy.getPosY() == i){
-							console("---Se escucha un grito---");
-							enemy.setDeath();
-						}
-					}
+		if(player.getArrows() > 0 && opc >= 5){
+			switch (opc) {
+				case 5: 
+					player.setArrows(player.getArrows()-1);
 					if(!enemy.isDeath()){
+						for(int i=player.getPosY(); i<board.getSizeY(); i++){
+							if(enemy.getPosX() == player.getPosX() && enemy.getPosY() == i){
+								console("---Se escucha un grito---");
+								enemy.setDeath();
+							}
+						}
+						if(!enemy.isDeath()){
+							console("La flecha choca contra la pared");
+						}
+					}else{
 						console("La flecha choca contra la pared");
 					}
-				}else{
-					console("La flecha choca contra la pared");
-				}
-				
-				break;
-			case 6: 
-				player.setArrows(player.getArrows()-1);
-				if(!enemy.isDeath()){
-					for(int i=0; i<player.getPosY(); i++){
-						if(enemy.getPosX() == player.getPosX() && enemy.getPosY() == i){
-							console("---Se escucha un grito---");
-							enemy.setDeath();
-						}
-					}
+					
+					break;
+				case 6: 
+					player.setArrows(player.getArrows()-1);
 					if(!enemy.isDeath()){
+						for(int i=0; i<player.getPosY(); i++){
+							if(enemy.getPosX() == player.getPosX() && enemy.getPosY() == i){
+								console("---Se escucha un grito---");
+								enemy.setDeath();
+							}
+						}
+						if(!enemy.isDeath()){
+							console("La flecha choca contra la pared");
+						}
+					}else{
 						console("La flecha choca contra la pared");
 					}
-				}else{
-					console("La flecha choca contra la pared");
-				}
-				
-				break;
-			case 7: 
-				player.setArrows(player.getArrows()-1);
-				if(!enemy.isDeath()){
-					for(int i=player.getPosX(); i<board.getSizeX(); i++){
-						if(enemy.getPosY() == player.getPosY() && enemy.getPosY() == i){
-							console("---Se escucha un grito---");
-							enemy.setDeath();
-						}
-					}
+					
+					break;
+				case 7: 
+					player.setArrows(player.getArrows()-1);
 					if(!enemy.isDeath()){
+						for(int i=player.getPosX(); i<board.getSizeX(); i++){
+							if(enemy.getPosY() == player.getPosY() && enemy.getPosY() == i){
+								console("---Se escucha un grito---");
+								enemy.setDeath();
+							}
+						}
+						if(!enemy.isDeath()){
+							console("La flecha choca contra la pared");
+						}
+					}else{
 						console("La flecha choca contra la pared");
 					}
-				}else{
-					console("La flecha choca contra la pared");
-				}
-				
-				break;
-			case 8: 
-				player.setArrows(player.getArrows()-1);
-				if(!enemy.isDeath()){
-					for(int i=0; i<player.getPosX(); i++){
-						if(enemy.getPosY() == player.getPosY() && enemy.getPosX() == i){
-							console("---Se escucha un grito---");
-							enemy.setDeath();
-						}
-					}
+					
+					break;
+				case 8: 
+					player.setArrows(player.getArrows()-1);
 					if(!enemy.isDeath()){
+						for(int i=0; i<player.getPosX(); i++){
+							if(enemy.getPosY() == player.getPosY() && enemy.getPosX() == i){
+								console("---Se escucha un grito---");
+								enemy.setDeath();
+							}
+						}
+						if(!enemy.isDeath()){
+							console("La flecha choca contra la pared");
+						}
+					}else{
 						console("La flecha choca contra la pared");
 					}
-				}else{
-					console("La flecha choca contra la pared");
-				}
-				
-				break;
-			default:
-				player.setDeath();
-				break;
+					
+					break;
+				default:
+					break;
+			}
+		}else if(opc >= 5){
+			console("No te quedan flechas");
+		}else{
+			switch (opc) {
+				case 1: 
+					if(player.getPosY() + 1 < board.getSizeY()){
+						player.setPosition(player.getPosX(), player.getPosY() + 1);
+					}else{
+						console("Te has chocado contra la pared");
+					}
+					break;
+				case 2: 
+					if(player.getPosY() - 1 >= 0){
+						player.setPosition(player.getPosX(), player.getPosY() - 1);
+					}else{
+						console("Te has chocado contra la pared");
+					}
+					break;
+				case 3: 
+					if(player.getPosX() + 1 < board.getSizeX()){
+						player.setPosition(player.getPosX() + 1, player.getPosY());
+					}else{
+						console("Te has chocado contra la pared");
+					}
+					break;
+				case 4: 
+					if(player.getPosX() - 1 >= 0){
+						player.setPosition(player.getPosX() - 1, player.getPosY());
+					}else{
+						console("Te has chocado contra la pared");
+					}
+					break;
+				default:
+					player.setDeath();
+					break;
+			}
 		}
+		
 	}
 	
 	public static void detect(){
 		
-		console("Estas en la posición: ");
-		console("X: "+player.getPosX());
-		console("Y: "+player.getPosY());
+		//console("Estas en la posición: ");
+		//console("X: "+player.getPosX());
+		//console("Y: "+player.getPosY());
 		for(int w = 0; w<waterWellList.size(); w++){
 			if(waterWellList.get(w).getPosX() == player.getPosX() && waterWellList.get(w).getPosY() == player.getPosY()){
 				player.setDeath();
