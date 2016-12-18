@@ -41,17 +41,17 @@ public class Main {
 		Random ran = new Random();
 		
 		//Creamos el lingote de oro
-		gold = new Gold(ran.nextInt(board.getSizeX()) + 1, ran.nextInt(board.getSizeX()) + 1);
+		gold = new Gold(ran.nextInt(board.getSizeX()), ran.nextInt(board.getSizeX()));
 		//Creamos el Enemy
 		
-		int enemyX = ran.nextInt(board.getSizeX()) + 1;
-		int enemyY = ran.nextInt(board.getSizeY()) + 1;
+		int enemyX = ran.nextInt(board.getSizeX());
+		int enemyY = ran.nextInt(board.getSizeY());
 		
 		//comprobamos que no cae en el mismo sitio que el oro (Aunque no se pide)
 	    while (enemyX == gold.getPosX() && enemyY == gold.getPosY()) {
 	    	console("Cae en la misma posicion que el oro!");
-	    	enemyX = ran.nextInt(board.getSizeX()) + 1;
-			enemyY = ran.nextInt(board.getSizeY()) + 1;
+	    	enemyX = ran.nextInt(board.getSizeX());
+			enemyY = ran.nextInt(board.getSizeY());
 	    }
 	    
 		enemy = new Enemy(enemyX, enemyY);
@@ -61,13 +61,13 @@ public class Main {
 		//TODO: controlar que el número de pozos no sea mayor que el numero de celdas determinadas ya que el juego podría ser imposible de jugar PD: No se especifica
 		waterWellList = new ArrayList<WaterWell>();
 		for (int i=0; i< nWaterWell; i++){
-			int waterX = ran.nextInt(board.getSizeX()) + 1;
-			int waterY = ran.nextInt(board.getSizeY()) + 1;
+			int waterX = ran.nextInt(board.getSizeX());
+			int waterY = ran.nextInt(board.getSizeY());
 			//comprobamos que no cae en el mismo sitio que el oro ni el enemy (Aunque no se pide)
-		    while ((waterX == gold.getPosX() && waterY == gold.getPosY()) || (waterX == enemy.getPosX() && waterY == enemy.getPosY())) {
+		    while ((waterX == gold.getPosX() && waterY == gold.getPosY()) || (waterX == enemy.getPosX() && waterY == enemy.getPosY()) || (waterX == player.getPosX() && waterY == player.getPosY())) {
 		    	console("Cae en la misma posicion que el oro o el enemy!");
-		    	waterX = ran.nextInt(board.getSizeX()) + 1;
-		    	waterX = ran.nextInt(board.getSizeY()) + 1;
+		    	waterX = ran.nextInt(board.getSizeX());
+		    	waterX = ran.nextInt(board.getSizeY());
 		    }
 			WaterWell w = new WaterWell(waterX, waterY); //Le sumo uno para que no caiga en la posicion 0,0 nunca
 			waterWellList.add(w);
@@ -94,6 +94,24 @@ public class Main {
 		console("7 dispara flecha hacia derecha (Te quedan "+player.getArrows()+")");
 		console("8 dispara flecha hacia izquierda (Te quedan "+player.getArrows()+")");
 		console("9 Salir");
+		console("-------------------");
+		for(int i = 0; i < board.getSizeX(); i++){
+			String fila = "";
+			for(int j = 0; j < board.getSizeY(); j++){
+				if(i == enemy.getPosX() && j == enemy.getPosY()){
+					fila = fila + " E ";
+				}else if(i == gold.getPosX() && j == gold.getPosY()){
+					fila = fila + " G ";
+				}else if(i == player.getPosX() && j == player.getPosY()){
+					fila = fila + " P ";
+				}else{
+					fila = fila + " x ";
+				}
+				
+			}
+			console(fila);
+		}
+		console("-------------------");
 		Scanner sc = new Scanner (System.in); 
 		int opc = capturaOpcion(sc, "Elige una opción: ");
 		switch (opc) {

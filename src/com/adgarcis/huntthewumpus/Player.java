@@ -1,7 +1,5 @@
 package com.adgarcis.huntthewumpus;
 
-import java.io.Console;
-
 public class Player {
 	private int posX;
     private int posY;
